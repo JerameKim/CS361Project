@@ -1,19 +1,18 @@
 <template>
   <div id="app">
-    <img alt="Weird Globe" src="./assets/globe.jpg" contain height = "200px" width = "200px">
-    <home/>
+    <appHeader></appHeader>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import home from './components/home.vue'
-
-export default {
-  name: 'App',
-  components: {
-    home
+  import Header from "./components/Header";
+  export default {
+    name: 'App',
+    components: {
+      appHeader: Header
+    }
   }
-}
 </script>
 
 <style>
