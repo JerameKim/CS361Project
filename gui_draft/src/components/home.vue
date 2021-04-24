@@ -1,7 +1,6 @@
 <template>
   <div>
     <img alt="Weird Globe1" src="/assets/globe.jpg" contain height = "200px" width = "200px">
-
     <h1>Wikipedia Scraper</h1>
     <p> What in the Wikipedia?<br></p>
     <form id = "main-form"> 
