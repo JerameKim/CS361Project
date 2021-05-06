@@ -13,7 +13,7 @@
                         <a class="nav-link" href="#" ><router-link to="/content" class="text-secondary">Content</router-link></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" ><router-link to="/api" class="text-secondary">API Calls</router-link></a>
+                        <a class="nav-link" href="#" ><router-link to="/api" class="text-secondary">API</router-link></a>
                     </li>
                 </ul>
             </div>

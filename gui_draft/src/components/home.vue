@@ -11,7 +11,8 @@
     </form>
     <div>
       <!-- This btn will take us to component with the api links -->
-      <button id = "api-btn" class="main-btn">API Calls</button>
+      <button id = "api-btn" class="main-btn">Advanced</button>
+      <!-- <button id = "api-btn" class="main-btn">APIs</button> -->
     </div>
   </div>
 </template>
