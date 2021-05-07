@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from bs4 import BeautifulSoup
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-
+import uvicorn
 import requests
 
 
@@ -59,6 +59,8 @@ def get_abstract(tag: str):
 
     return firstParagraph
 
+if __name__ == "__main__": 
+    uvicorn.run(app, host = "127.0.0.1", port=5000, log_level="info")
 
 # url = 'https://en.wikipedia.org/wiki/Lexus_F'
 # url = 'https://en.wikipedia.org/wiki/WWE'
