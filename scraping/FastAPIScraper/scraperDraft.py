@@ -221,51 +221,7 @@ def get_photos(tag):
     #     print(f"Image caption: {finalImage.caption}")
     #     print(f"Image id: {finalImage.id}")
     return images_array
-
-# gets the related categories
-def get_categories(tag):
-    templateURL = "https://en.wikipedia.org/wiki/"
-    url = templateURL + tag
-    html = requests.get(url) 
-    html_text = "none"
-    if(html.status_code==200): 
-        html_text = requests.get(url).text
-    else: 
-        print(f"Failed get request from webpage with code {html.status_code}")
-        exit(0)
-    
-    # format the text in lxml format 
-    soup = BeautifulSoup(html_text, "lxml")
-    categories_wrapper = soup.find("div", class_="mw-normal-catlinks")
-    categories_array = []
-    # empty category array 
-    for category in categories_wrapper.find_all('li'): 
-        empty_category_obj= my_category("", "")
-        categories_array.append(empty_category_obj)
-
-    # get title for each category 
-    text_idx = 0
-    for category in categories_wrapper.find_all('li'):
-        categories_array[text_idx].text = category.get_text()
-        text_idx += 1
-    
-    # get link for each category 
-    link_idx = 0
-    for single_category in categories_wrapper.find_all('ul'): 
-        for tag in single_category.find_all('a'): 
-            category_link = tag['href']
-            category_link = "https://en.wikipedia.org/" + category_link
-            categories_array[link_idx].link = category_link
-            link_idx+=1
-    # print the categories 
-    # for category in categories_array: 
-    #     print(f"Category text: {category.text}")
-    #     print(f"Category link: {category.link}")
-    #     print()
-    
-    return categories_array
-
-
+A
 
 def main(): 
     # tag = 'Lexus_F'
