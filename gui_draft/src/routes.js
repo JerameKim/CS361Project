@@ -7,5 +7,4 @@ export const routes = [
     { path: '', component:  Home},
     { path: '/content', component: Content},
     { path: '/api', component: ApiCalls},
-
 ]
