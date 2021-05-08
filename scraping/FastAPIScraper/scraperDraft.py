@@ -2,13 +2,23 @@ from bs4 import BeautifulSoup
 import re
 import requests
 
-class citation(object): 
+class my_citation(object): 
     def __init__(self, link, text, id):
         self.link = link
         # gives all the text of the citation, stuff in quotes is the linked portion 
         # if nothing in quotes, whole thing is linked
         self.text = text
         self.id = id
+class my_image(object): 
+    def __init__(self, src, caption,id):
+        self.src = src
+        self.caption = caption
+        # 1 for thumbnail photo, greater than 1 for all other
+        self.id = id
+class my_category(object): 
+    def __init__(self, link, text): 
+        self.link = link 
+        self.text = text
 
 # gets first paragraph in article
 def get_abstract(tag): 
@@ -75,6 +85,7 @@ def get_main_text(tag):
 
     return paragraphs
 
+# gets the citations in a citaitons array obj
 def get_citations(tag): 
     templateURL = "https://en.wikipedia.org/wiki/"
     url = templateURL + tag
@@ -99,7 +110,7 @@ def get_citations(tag):
 
     # creates array of objects
     for single_citation in citations: 
-        empty_citation = citation("", "", citation_num)
+        empty_citation = my_citation("", "", citation_num)
         citation_num+=1
         citation_obj_array.append(empty_citation)
 
@@ -137,6 +148,122 @@ def get_citations(tag):
         print(f"Id: {cit_obj.id}")
         print()
 
+# gets the links and the citations to the photos
+def get_photos(tag):
+    templateURL = "https://en.wikipedia.org/wiki/"
+    url = templateURL + tag
+    html = requests.get(url) 
+    html_text = "none"
+    if(html.status_code==200): 
+        html_text = requests.get(url).text
+    else: 
+        print(f"Failed get request from webpage with code {html.status_code}")
+        exit(0)
+    
+    # format the text in lxml format 
+    soup = BeautifulSoup(html_text, "lxml")
+    images_array = []
+
+    # create empty array of image obj
+    for _ in soup.find_all('a', class_="image"): 
+        empty_img_obj = my_image("", "", 0)
+        images_array.append(empty_img_obj)
+
+    # get infobox image first(if it exists)
+    if(soup.find_all("td", class_="infobox-image")): 
+        # text caption 
+        info_caption = soup.find("td", class_="infobox-image").get_text()
+
+        # find the image src
+        info_wrapper = soup.find_all("td", class_="infobox-image")
+        for a in info_wrapper: 
+            for k in a.find_all('img', src=True): 
+                # add the https in front 
+                img_src = k['src']
+                img_src = "https:" + img_src
+        
+        # image = my_image(img_src, info_caption, 1)
+        # images_array.append(image)
+        # populate tthe infobox
+        images_array[0].src = img_src
+        images_array[0].caption = info_caption
+        images_array[0].id = 1
+        # print(f"Image source: {image.src}")
+        # print(f"Image caption: {image.caption}")
+        # print(f"Image id: {image.id}")
+
+    image_text_idx = 0
+    image_src_idx = 0
+    # if there is a title image, populate 2nd array in list
+    if(images_array[0].id == 1): 
+        image_text_idx = 1
+        image_src_idx = 1
+
+    # find and populate the image caption 
+    other_images = soup.find_all("div", class_="thumb")
+    for image in other_images: 
+        image_caption = image.get_text()
+        images_array[image_text_idx].caption = image_caption
+        image_text_idx += 1
+
+    # find and populate the image source 
+    image_wrapper = soup.find_all("div", class_="thumbinner")
+    for wrapper in image_wrapper: 
+        for tag in wrapper.find_all('img', class_="thumbimage", src=True):
+            img_src = tag['src']
+            img_src = "https:" + img_src
+            images_array[image_src_idx].src = img_src
+            image_src_idx += 1
+
+    for finalImage in images_array: 
+        print(f"Image source: {finalImage.src}")
+        print(f"Image caption: {finalImage.caption}")
+        print(f"Image id: {finalImage.id}")
+
+# gets the related categories
+def get_categories(tag):
+    templateURL = "https://en.wikipedia.org/wiki/"
+    url = templateURL + tag
+    html = requests.get(url) 
+    html_text = "none"
+    if(html.status_code==200): 
+        html_text = requests.get(url).text
+    else: 
+        print(f"Failed get request from webpage with code {html.status_code}")
+        exit(0)
+    
+    # format the text in lxml format 
+    soup = BeautifulSoup(html_text, "lxml")
+    categories_wrapper = soup.find("div", class_="mw-normal-catlinks")
+    categories_array = []
+    # empty category array 
+    for category in categories_wrapper.find_all('li'): 
+        empty_category_obj= my_category("", "")
+        categories_array.append(empty_category_obj)
+
+    # get title for each category 
+    text_idx = 0
+    for category in categories_wrapper.find_all('li'):
+        categories_array[text_idx].text = category.get_text()
+        text_idx += 1
+    
+    # get link for each category 
+    link_idx = 0
+    for single_category in categories_wrapper.find_all('ul'): 
+        for tag in single_category.find_all('a'): 
+            category_link = tag['href']
+            category_link = "https://en.wikipedia.org/" + category_link
+            categories_array[link_idx].link = category_link
+            link_idx+=1
+    # print the categories 
+    # for category in categories_array: 
+    #     print(f"Category text: {category.text}")
+    #     print(f"Category link: {category.link}")
+    #     print()
+    
+    return categories_array
+
+
 
 def main(): 
     # tag = 'Lexus_F'
@@ -146,9 +273,9 @@ def main():
 
     # abstract = get_abstract(tag)
     # main_text = get_main_text(tag)
-    citations = get_citations(tag)
-    # print(abstract)
-
+    # citations = get_citations(tag)
+    # pictures = get_photos(tag)
+    categories = get_categories(tag)
 
 if __name__ == "__main__": 
     main()
