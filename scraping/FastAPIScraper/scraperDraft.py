@@ -107,27 +107,35 @@ def get_citations(tag):
     # grabs the relevant text 
     for single_citation in citations: 
         citation_text = single_citation.get_text()
-        citation_text = citation_text[2:]
+        # ignore first 2 chars and remove \n
+        citation_text = citation_text[2:].rstrip()
         # populate object
         citation_obj_array[single_counter].text= citation_text
-        print(citation_obj_array[single_counter].text)
+        # print(citation_obj_array[single_counter].text)
         single_counter += 1
 
 
-
+    link_counter = 0
     # if it exists, grabs the link associated to text 
     reference_wrapper = soup.find_all('span', class_="reference-text")
     for single_citation in reference_wrapper: 
-        # lists the link 
-        for a in single_citation.find_all('a', href=True): 
-            # print(a['href'])
-            # print(idx)
-            idx+=1
+        # if it has a link, add it 
+        if single_citation.find_all('a', href=True):
+        # if single_citation.find('cite'):
+            for a in single_citation.find_all('a', href=True): 
+                # print(a['href'])
+                citation_obj_array[link_counter].link = a['href']
+                link_counter +=1
+                break
+        else: 
+            link_counter +=1
+            continue
 
-            break
-        # if soup.find("cite"):
-        #     print("has citation tag")
-
+    for cit_obj in citation_obj_array: 
+        print(f"Text: {cit_obj.text}")
+        print(f"Link: {cit_obj.link}")
+        print(f"Id: {cit_obj.id}")
+        print()
 
 
 def main(): 
