@@ -82,8 +82,8 @@ def get_main_text(tag):
         # removes brackets and their contents 
         paragraphs[i] = re.sub(pattern, '', paragraphs[i])
         # print(paragraphs[i])
-
-    return paragraphs
+    main_text = f"{paragraphs}"
+    return main_text
 
 # gets the citations in a citaitons array obj
 def get_citations(tag): 
@@ -142,11 +142,12 @@ def get_citations(tag):
             link_counter +=1
             continue
 
-    for cit_obj in citation_obj_array: 
-        print(f"Text: {cit_obj.text}")
-        print(f"Link: {cit_obj.link}")
-        print(f"Id: {cit_obj.id}")
-        print()
+    return citation_obj_array
+    # for cit_obj in citation_obj_array: 
+    #     print(f"Text: {cit_obj.text}")
+    #     print(f"Link: {cit_obj.link}")
+    #     print(f"Id: {cit_obj.id}")
+    #     print()
 
 # gets the links and the citations to the photos
 def get_photos(tag):
@@ -215,10 +216,11 @@ def get_photos(tag):
             images_array[image_src_idx].src = img_src
             image_src_idx += 1
 
-    for finalImage in images_array: 
-        print(f"Image source: {finalImage.src}")
-        print(f"Image caption: {finalImage.caption}")
-        print(f"Image id: {finalImage.id}")
+    # for finalImage in images_array: 
+    #     print(f"Image source: {finalImage.src}")
+    #     print(f"Image caption: {finalImage.caption}")
+    #     print(f"Image id: {finalImage.id}")
+    return images_array
 
 # gets the related categories
 def get_categories(tag):
@@ -275,7 +277,7 @@ def main():
     # main_text = get_main_text(tag)
     # citations = get_citations(tag)
     # pictures = get_photos(tag)
-    categories = get_categories(tag)
+    # categories = get_categories(tag)
 
 if __name__ == "__main__": 
     main()
