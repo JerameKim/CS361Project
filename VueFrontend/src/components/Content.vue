@@ -28,7 +28,7 @@
                 <placeholder></placeholder>
             </div>
             <div id="row2col3" class="col-sm">
-                <h2>Data Tables</h2>
+                <h2>Categories</h2>
                 <i class="fas fa-download fa-2x"></i>
                 <placeholder></placeholder>
             </div>

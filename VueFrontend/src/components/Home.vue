@@ -5,8 +5,8 @@
     <p> What in the Wikipedia?<br></p>
     <form id = "main-form"> 
       <div>
-        <input id="user-url" name="user-url-input" type="text" v-model = "message" placeholder ="Enter URL">
-        <button id = "submit-btn" class="main-btn" >Go!</button>
+        <input id="user-url" name="user-url-input" type="text" v-model = "wikiURL" placeholder ="Enter your Wikipedia URL">
+        <button id = "submit-btn" class="main-btn"  type="button" @click="exampleFunction(wikiURL)">Go!</button>
       </div>
     </form>
     <div>
@@ -23,7 +23,12 @@ export default {
   name: 'Home',
   data() { 
     return { 
-      message: ""
+      wikiURL: ""
+    }
+  },
+  methods: { 
+    exampleFunction(){ 
+      console.log(this.wikiURL)
     }
   },
   props: {
