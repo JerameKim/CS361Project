@@ -6,12 +6,13 @@
     <form id = "main-form"  onsubmit="return false"> 
       <div>
         <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup.enter ="verifyURL(wikiURL)" placeholder ="Enter your Wikipedia URL">
-        <button id = "submit-btn" class="main-btn"  type="button" @click="verifyURL(wikiURL)">Go!</button>
+        <!-- <button id = "submit-btn" class="main-btn"  type="button" @click="verifyURL(wikiURL)">Go!</button> -->
+        <router-link v-if="isValid" :to="referenceTag" tag="button"> Go! </router-link>
       </div>
     </form>
     <div>
       <!-- This btn will take us to component with the api links -->
-      <button id = "api-btn" class="main-btn">Advanced</button>
+      <!-- <button id = "api-btn" class="main-btn">Advanced</button> -->
       <!-- <button id = "api-btn" class="main-btn">APIs</button> -->
     </div>
   </div>
@@ -29,6 +30,7 @@ export default {
       userFront: "",
       isWiki: 2, // 0 for match, anything else for not match
       wikiTag: "",
+      referenceTag: "",
       isValid: false
     }
   },
@@ -42,10 +44,13 @@ export default {
       // Compare userFront and "https://en.wikipedia.org/wiki/"
       this.isWiki = this.userFront.localeCompare(this.wikiFront)
 
+      this.wikiTag = inputURL.slice(30)
       // Exact match and total length is great, 
       if((this.isWiki == 0)&& (inputURL.length> 30)){ 
-        // Is a wikipedia page, route to somewhere else.  
-        console.log("Valid input")
+        // Is a wikipedia page, route to somewhere else.
+        this.isValid = true;
+        this.referenceTag = "/content/" + this.wikiTag;
+        console.log("Valid input");
       } else {
         console.log("Input invalid")
         // do actions to show that not good 
