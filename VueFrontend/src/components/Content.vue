@@ -1,7 +1,6 @@
 <template>
     <div id="content">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-    <h3>Your tag is {{tag}}</h3>
         <div class="row">
             <div id="row1col1" class="col-sm-8">
                 <!-- Send the content/tag tag to abstractView so that abstract can be loaded -->
@@ -38,17 +37,6 @@ import PhotosView from "./Photos";
 export default {
     name: "Content",
     props: ['tag'],
-    // data() { 
-    //     return {
-    //         tag: this.$route.params.tag
-    //     }
-    // },
-    // watch: { 
-    //     // Whenever $route is changed, execute code
-    //     '$route'(to, from){ 
-    //         this.id = to.params.id;
-    //     }
-    // },
 
     components: {
         abstractView: Abstract,

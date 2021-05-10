@@ -5,23 +5,28 @@
     <p> What in the Wikipedia?<br></p>
     <form id = "main-form"  onsubmit="return false"> 
       <div>
-        <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup.enter ="verifyURL(wikiURL)" placeholder ="Enter your Wikipedia URL">
+        <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup="verifyURL(wikiURL)" placeholder ="Enter your Wikipedia URL">
         <!-- <button id = "submit-btn" class="main-btn"  type="button" @click="verifyURL(wikiURL)">Go!</button> -->
-        <router-link v-if="isValid" :to="referenceTag" tag="button"> Go! </router-link>
+        <router-link id ="go-btn" v-if="isValid" :to="referenceTag" tag="button"> Go! </router-link>
       </div>
     </form>
     <div>
+      <br>
+      <br>
       <!-- This btn will take us to component with the api links -->
-      <!-- <button id = "api-btn" class="main-btn">Advanced</button> -->
-      <!-- <button id = "api-btn" class="main-btn">APIs</button> -->
+      <router-link to="/filter" id="api-btn" class ="main-btn">Advanced Filters</router-link>
     </div>
   </div>
 </template>
 
 <script>
+// import FiltersView from "./Filters";
+
 // when this is component is referenced then it will have these attributes
 export default {
+  
   name: 'Home',
+  
   data() { 
     return { 
       wikiURL: "", 
@@ -34,6 +39,11 @@ export default {
       isValid: false
     }
   },
+  
+  // components: { 
+  //   filter: FiltersView
+  // },
+
   methods: { 
     // Handle the wikipedia URL to find tag
     verifyURL(inputURL){ 
@@ -90,7 +100,7 @@ Navy Blue: #05445E
   outline: none;
   border-color: #cbf1f5;
 }
-#submit-btn{ 
+#go-btn{ 
   margin-left: 30px;
 	font-size:25px;
 	font-weight:350;
@@ -125,6 +135,4 @@ Navy Blue: #05445E
   position:relative;
 	top:1px;
 }
-
-
 </style>
