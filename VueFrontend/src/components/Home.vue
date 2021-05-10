@@ -3,9 +3,9 @@
     <img alt="Weird Globe1" src="/assets/globe.jpg" contain height = "200px" width = "200px">
     <h1>Wikipedia Scraper</h1>
     <p> What in the Wikipedia?<br></p>
-    <form id = "main-form"> 
+    <form id = "main-form"  onsubmit="return false"> 
       <div>
-        <input id="user-url" name="user-url-input" type="text" v-model = "wikiURL" placeholder ="Enter your Wikipedia URL">
+        <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup.enter="exampleFunction(wikiURL)" placeholder ="Enter your Wikipedia URL">
         <button id = "submit-btn" class="main-btn"  type="button" @click="exampleFunction(wikiURL)">Go!</button>
       </div>
     </form>
@@ -53,10 +53,10 @@ Navy Blue: #05445E
   border-radius: 8px;
   border-style: solid;
   border-color: #e6e6e6;
-  font-size: 30px;
   width: 25rem;
   height: 2rem;
   padding: 10px;
+  font-size: 20px;
 
 }
 #user-url:focus{ 
@@ -98,5 +98,6 @@ Navy Blue: #05445E
   position:relative;
 	top:1px;
 }
+
 
 </style>
