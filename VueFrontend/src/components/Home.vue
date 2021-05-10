@@ -5,8 +5,8 @@
     <p> What in the Wikipedia?<br></p>
     <form id = "main-form"  onsubmit="return false"> 
       <div>
-        <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup.enter="exampleFunction(wikiURL)" placeholder ="Enter your Wikipedia URL">
-        <button id = "submit-btn" class="main-btn"  type="button" @click="exampleFunction(wikiURL)">Go!</button>
+        <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup.enter ="verifyURL(wikiURL)" placeholder ="Enter your Wikipedia URL">
+        <button id = "submit-btn" class="main-btn"  type="button" @click="verifyURL(wikiURL)">Go!</button>
       </div>
     </form>
     <div>
@@ -28,11 +28,13 @@ export default {
       wikiFront: "https://en.wikipedia.org/wiki/", // 30 chars here 
       userFront: "",
       isWiki: 2, // 0 for match, anything else for not match
+      wikiTag: "",
+      isValid: false
     }
   },
   methods: { 
     // Handle the wikipedia URL to find tag
-    exampleFunction(inputURL){ 
+    verifyURL(inputURL){ 
       this.finalIndex = inputURL.lastIndexOf("/")
 
       // First 30 chars of user input
@@ -40,11 +42,12 @@ export default {
       // Compare userFront and "https://en.wikipedia.org/wiki/"
       this.isWiki = this.userFront.localeCompare(this.wikiFront)
 
-      // 0 if exact match 
-      if(this.isWiki == 0){ 
-        // Make request to page and see if valid 
-        // if page valid, do something
+      // Exact match and total length is great, 
+      if((this.isWiki == 0)&& (inputURL.length> 30)){ 
+        // Is a wikipedia page, route to somewhere else.  
+        console.log("Valid input")
       } else {
+        console.log("Input invalid")
         // do actions to show that not good 
         // animate button shake and make input form red
       }
@@ -52,7 +55,6 @@ export default {
     }
   },
   props: {
-    msg: String
   }
 }
 </script>

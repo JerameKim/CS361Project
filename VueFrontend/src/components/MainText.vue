@@ -1,10 +1,9 @@
 <template>
-    <div>
-        <h2>Abstract</h2>
+    <div class="mainTextContainer">
+        <h2>Main Text</h2>
         <i class="fas fa-clipboard-list fa-2x"></i>
         <i class="fas fa-download fa-2x"></i>
-        <!-- <h3><strong>Abstract tag is {{wikiTag}}</strong></h3> -->
-        <p>{{this.abstract}}</p>
+        <p>{{this.mainText}}</p>
     </div>
 </template>
 
@@ -16,8 +15,8 @@ export default({
     ],
     data() { 
         return{ 
-            url: "http://backendcs361.herokuapp.com/abstract/",
-            abstract: ""
+            url: "http://backendcs361.herokuapp.com/text/",
+            mainText: ""
         }
     },
     mounted(){
@@ -29,7 +28,7 @@ export default({
             console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
-                this.abstract = data
+                this.mainText = data
             })
         },
 
@@ -40,3 +39,10 @@ export default({
     }
 })
 </script>
+
+<style scoped>
+.mainTextContainer{ 
+    height: 400px;
+    overflow: auto;
+}
+</style>

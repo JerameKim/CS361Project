@@ -1,10 +1,13 @@
 <template>
-    <div>
-        <h2>Abstract</h2>
-        <i class="fas fa-clipboard-list fa-2x"></i>
+    <div class="mainTextContainer">
+        <h2>Categories</h2>
         <i class="fas fa-download fa-2x"></i>
-        <!-- <h3><strong>Abstract tag is {{wikiTag}}</strong></h3> -->
-        <p>{{this.abstract}}</p>
+
+        <ul>
+            <li v-for="(category, categoryIdx) in categories" v-bind:key="categoryIdx">
+                <a :href=category.link>{{category.text}}</a>
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -16,8 +19,8 @@ export default({
     ],
     data() { 
         return{ 
-            url: "http://backendcs361.herokuapp.com/abstract/",
-            abstract: ""
+            url: "http://backendcs361.herokuapp.com/categories/",
+            categories: [],
         }
     },
     mounted(){
@@ -29,14 +32,16 @@ export default({
             console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
-                this.abstract = data
+                this.categories = data
             })
         },
-
-        // printTag(){ 
-        //     console.log("Your tag: ")
-        //     console.log(this.wikiTag)
-        // },
     }
 })
 </script>
+
+<style scoped>
+.mainTextContainer{ 
+    height: 400px;
+    overflow: auto;
+}
+</style>

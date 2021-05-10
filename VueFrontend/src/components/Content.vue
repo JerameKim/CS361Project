@@ -1,36 +1,27 @@
 <template>
     <div id="content">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <h3>Your tag is {{tag}}</h3>
         <div class="row">
             <div id="row1col1" class="col-sm-8">
-                <h2>Abstract</h2>
-                <i class="fas fa-clipboard-list fa-2x"></i>
-                <i class="fas fa-download fa-2x"></i>
-                <placeholder></placeholder>
+                <!-- Send the content/tag tag to abstractView so that abstract can be loaded -->
+                <abstractView :wikiTag= "tag" ></abstractView>
             </div>
             <div id="row1col2" class="col-sm">
-                <h2>Main Text</h2>
-                <i class="fas fa-clipboard-list fa-2x"></i>
-                <i class="fas fa-download fa-2x"></i>
-                <placeholder></placeholder>
+                <mainText :wikiTag = "tag"></mainText>
             </div>
         </div>
         <div class="row">
             <div id="row2col1" class="col-sm">
-                <h2>Photos</h2>
-                <i class="fas fa-download fa-2x"></i>
-                <placeholder></placeholder>
+                <photosView :wikiTag = "tag"></photosView>
             </div>
+            
             <div id="row2col2" class="col-sm">
-                <h2>Citations</h2>
-                <i class="fas fa-clipboard-list fa-2x"></i>
-                <i class="fas fa-download fa-2x"></i>
-                <placeholder></placeholder>
+                <citationsView :wikiTag = "tag"></citationsView>
             </div>
+
             <div id="row2col3" class="col-sm">
-                <h2>Categories</h2>
-                <i class="fas fa-download fa-2x"></i>
-                <placeholder></placeholder>
+                <categoriesView :wikiTag = "tag"></categoriesView>
             </div>
         </div>
     </div>
@@ -38,11 +29,33 @@
 
 <script>
 import Abstract from "./Abstract";
+import MainTextView from "./MainText";
+import CitationsView from "./Citations";
+import CategoriesView from "./Categories";
+import PhotosView from "./Photos";
+
 
 export default {
     name: "Content",
+    props: ['tag'],
+    // data() { 
+    //     return {
+    //         tag: this.$route.params.tag
+    //     }
+    // },
+    // watch: { 
+    //     // Whenever $route is changed, execute code
+    //     '$route'(to, from){ 
+    //         this.id = to.params.id;
+    //     }
+    // },
+
     components: {
-        placeholder: Abstract,
+        abstractView: Abstract,
+        mainText: MainTextView,
+        citationsView: CitationsView,
+        categoriesView: CategoriesView,
+        photosView: PhotosView
     },
 };
 </script>
