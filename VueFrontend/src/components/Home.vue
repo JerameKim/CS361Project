@@ -23,12 +23,32 @@ export default {
   name: 'Home',
   data() { 
     return { 
-      wikiURL: ""
+      wikiURL: "", 
+      finalIndex: -1,
+      wikiFront: "https://en.wikipedia.org/wiki/", // 30 chars here 
+      userFront: "",
+      isWiki: 2, // 0 for match, anything else for not match
     }
   },
   methods: { 
-    exampleFunction(){ 
-      console.log(this.wikiURL)
+    // Handle the wikipedia URL to find tag
+    exampleFunction(inputURL){ 
+      this.finalIndex = inputURL.lastIndexOf("/")
+
+      // First 30 chars of user input
+      this.userFront = inputURL.slice(0, 30)
+      // Compare userFront and "https://en.wikipedia.org/wiki/"
+      this.isWiki = this.userFront.localeCompare(this.wikiFront)
+
+      // 0 if exact match 
+      if(this.isWiki == 0){ 
+        // Make request to page and see if valid 
+        // if page valid, do something
+      } else {
+        // do actions to show that not good 
+        // animate button shake and make input form red
+      }
+
     }
   },
   props: {
