@@ -16,26 +16,40 @@ export default({
     data() { 
         return{ 
             url: "http://backendcs361.herokuapp.com/text/",
-            mainText: ""
+            mainText: "",
+            formatText: [],
+            finalText: "",
         }
     },
     mounted(){
         this.getData()
     },
+
     methods: { 
+        // removes whitespace lines
+        modifyData(){ 
+            for(var i =0; i < this.formatText.length; i++){
+                if(this.formatText[i] == "\n"){
+                    continue; 
+                }
+                this.finalText = this.mainText
+
+                this.mainText = this.finalText + this.formatText[i] 
+
+                // console.log(this.formatText[i])
+            }
+        },
+
         getData(){ 
             const fullUrl = this.url + this.wikiTag
             console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
-                this.mainText = data
+                // this.mainText = data
+                this.formatText = data
+                this.modifyData()
             })
         },
-
-        // printTag(){ 
-        //     console.log("Your tag: ")
-        //     console.log(this.wikiTag)
-        // },
     }
 })
 </script>
@@ -44,5 +58,8 @@ export default({
 .mainTextContainer{ 
     height: 400px;
     overflow: auto;
+}
+p{
+    white-space: pre-line;
 }
 </style>

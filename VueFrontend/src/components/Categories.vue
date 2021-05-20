@@ -43,5 +43,8 @@ export default({
 .mainTextContainer{ 
     height: 400px;
     overflow: auto;
+} 
+ul{
+    list-style: circle;
 }
 </style>

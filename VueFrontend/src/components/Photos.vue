@@ -4,8 +4,13 @@
         <i class="fas fa-download fa-2x"></i>
         <ul>
             <li v-for="(photo, photoIdx) in photos" v-bind:key="photoIdx">
-                <a :href=photo.src v-if="photo.id == 1">Main photo</a>
-                <a :href= photo.src v-else>{{photo.caption}}</a>
+                <div class="inner">
+                    <a :href=photo.src v-if="photo.id == 1">Title Photo</a>
+                    <a :href= photo.src v-else>{{photo.caption}}</a>
+                    <br>
+                    <img :src=photo.src :alt=photo.caption>
+                    <hr>
+                </div>
             </li>
         </ul>
     </div>
@@ -44,4 +49,15 @@ export default({
     height: 400px;
     overflow: auto;
 }
+.inner{
+    align-content: center;
+}
+ul{
+    list-style-type: none;
+    padding-left: 8px; 
+    margin: 0;
+}
+/* li{
+    list-style: none;
+}; */
 </style>

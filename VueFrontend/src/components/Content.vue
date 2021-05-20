@@ -2,7 +2,7 @@
     <div id="content">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
         <div class="row">
-            <div id="row1col1" class="col-sm-8">
+            <div id="row1col1" class="col-sm-4">
                 <!-- Send the content/tag tag to abstractView so that abstract can be loaded -->
                 <abstractView :wikiTag= "tag" ></abstractView>
             </div>

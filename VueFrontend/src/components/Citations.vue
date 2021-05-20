@@ -7,6 +7,7 @@
         <ul>
             <li v-for="(citation, citationIdx) in citations" v-bind:key="citationIdx">
                 <p>{{citation.text}} (<a :href=citation.link>link</a>)</p>
+                <hr>
             </li>
         </ul>
     </div>
@@ -46,6 +47,6 @@ export default({
     overflow: auto;
 }
 ul { 
-    list-style: none;
+    list-style: circle;
 }
 </style>

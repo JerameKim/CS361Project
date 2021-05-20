@@ -32,14 +32,6 @@
     </div>
 </template>
 
-<script>
-
-export default({
-    props: [
-    ],
-})
-</script>
-
 <style scoped>
 .col-sm{
     border-style: solid;
