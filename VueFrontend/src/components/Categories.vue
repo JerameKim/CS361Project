@@ -1,8 +1,9 @@
 <template>
     <div class="mainTextContainer">
         <h2>Categories</h2>
-        <i class="fas fa-download fa-2x" v-if="this.rendered" @click="download(); showDownload()"></i>
-
+        <button>
+            <i class="fas fa-download fa-2x" v-if="this.rendered" @click="download(); showDownload()"></i>
+        </button>
         <ul>
             <li v-for="(category, categoryIdx) in categories" v-bind:key="categoryIdx">
                 <a :href=category.link>{{category.text}}</a>
@@ -15,6 +16,7 @@
 
 export default({
     props: [
+        'lang',
         'wikiTag'
     ],
     data() { 
@@ -38,7 +40,8 @@ export default({
             }
         },
         getData(){ 
-            const fullUrl = this.url + this.wikiTag
+            // const fullUrl = this.url + this.wikiTag
+            const fullUrl = this.url + this.lang + "/" + this.wikiTag
             console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
@@ -87,5 +90,10 @@ export default({
 } 
 ul{
     list-style: circle;
+}
+button { 
+    outline: none; 
+    background: transparent; 
+    border: 1px solid transparent
 }
 </style>

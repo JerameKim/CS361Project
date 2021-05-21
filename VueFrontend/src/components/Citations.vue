@@ -1,8 +1,12 @@
 <template>
     <div class="mainTextContainer">
         <h2>Citations</h2>
-        <i class="fas fa-clipboard-list fa-2x" v-if="this.rendered" v-clipboard:copy="this.finalString" @click="showCopy();"></i>
-        <i class="fas fa-download fa-2x" v-if="this.rendered" @click="showDownload()"></i>
+        <button>
+            <i class="fas fa-clipboard-list fa-2x" v-if="this.rendered" v-clipboard:copy="this.finalString" @click="showCopy();"></i>
+        </button>
+        <button>
+            <i class="fas fa-download fa-2x" v-if="this.rendered" @click="showDownload()"></i>
+        </button>
         <ul>
             <li v-for="(citation, citationIdx) in citations" v-bind:key="citationIdx">
                 <p>{{citation.text}} (<a :href=citation.link>link</a>)</p>
@@ -16,6 +20,7 @@
 
 export default({
     props: [
+        'lang',
         'wikiTag'
     ],
     data() { 
@@ -41,14 +46,25 @@ export default({
         },
 
         getData(){ 
-            const fullUrl = this.url + this.wikiTag
+            // const fullUrl = this.url + this.wikiTag
+            const fullUrl = this.url + this.lang + "/" + this.wikiTag
             console.log(fullUrl)
-            fetch(fullUrl).then(response=> response.json())
-            .then(data=> { 
-                this.citations = data
-                this.rendered = true
-                this.parseData()
-            })
+            // fetch(fullUrl).then(response=> response.json())
+            // .then(data=> { 
+            //     this.citations = data
+            //     this.rendered = true
+            //     this.parseData()
+            // })
+            fetch(fullUrl).then(response=> 
+            // response.json()÷
+            console.log(response.json()))
+
+
+            // .then(data=> { 
+            //     this.categories = data
+            //     this.rendered = true
+            //     this.parseData()
+            // })
         },
         download(){ 
             console.log("Download Started")
@@ -92,5 +108,10 @@ export default({
 }
 ul { 
     list-style: circle;
+}
+button { 
+    outline: none; 
+    background: transparent; 
+    border: 1px solid transparent
 }
 </style>

@@ -17,31 +17,52 @@
         <hr>
         <ul class="list-group">
             <li class="list-group-item">
-                <h3>Article Abstract <span class="badge bg-success">GET</span><i class="fas fa-clipboard-list"></i></h3>
+                <h3>Article Abstract <span class="badge bg-success">GET</span>
+                <button>
+                    <i title="Copy URL" class="fas fa-clipboard-list" v-clipboard:copy="'https://backendcs361.herokuapp.com/abstract/{tag}'" @click="showCopy"></i>
+                </button>
+                
+                </h3>
                 <p style="font-weight: bold">https://backendcs361.herokuapp.com/abstract/{tag}</p>
                 <p>This endpoint fetches the first paragraph of any Wikipedia article.</p>
                 <p>Return data is raw text</p>
             </li>
             <li class="list-group-item">
-                <h3>Article Citations <span class="badge bg-success">GET</span><i class="fas fa-clipboard-list"></i></h3>
+                <h3>Article Citations <span class="badge bg-success">GET</span>
+                <button>
+                    <i title="Copy URL" class="fas fa-clipboard-list" v-clipboard:copy="'https://backendcs361.herokuapp.com/citations/{tag}'" @click="showCopy"></i>
+                </button>
+                </h3>
                 <p style="font-weight: bold">https://backendcs361.herokuapp.com/citations/{tag}</p>
                 <p>This endpoint fetches the citation text and links of any Wikipedia article.</p>
                 <p>Returned in JSON format with each object having a link, text and id attribute.</p>
             </li>
             <li class="list-group-item">
-                <h3>Article Text <span class="badge bg-success">GET</span><i class="fas fa-clipboard-list"></i></h3>
+                <h3>Article Text <span class="badge bg-success">GET</span>
+                <button>
+                    <i title="Copy URL" class="fas fa-clipboard-list" v-clipboard:copy="'https://backendcs361.herokuapp.com/text/{tag}'" @click="showCopy"></i>
+                </button>
+                </h3>
                 <p style="font-weight: bold">https://backendcs361.herokuapp.com/text/{tag}</p>
                 <p>This endpoint fetches all the raw text in the article.</p>
                 <p>Return data is raw text</p>
             </li>
             <li class="list-group-item">
-                <h3>Article Text <span class="badge bg-success">GET</span><i class="fas fa-clipboard-list"></i></h3>
+                <h3>Article Text <span class="badge bg-success">GET</span>
+                <button>
+                    <i title="Copy URL" class="fas fa-clipboard-list" v-clipboard:copy="'https://backendcs361.herokuapp.com/photos/{tag}'" @click="showCopy"></i>
+                </button>
+                </h3>
                 <p style="font-weight: bold">https://backendcs361.herokuapp.com/photos/{tag}</p>
                 <p>This endpoint fetches the photo source links and their captions.</p>
                 <p>Return data is JSON formatted with each object having a src, caption and id field</p>
             </li>
             <li class="list-group-item">
-                <h3>Article Text <span class="badge bg-success">GET</span><i class="fas fa-clipboard-list"></i></h3>
+                <h3>Article Text <span class="badge bg-success">GET</span>
+                <button>
+                <i title="Copy URL" class="fas fa-clipboard-list" v-clipboard:copy="'https://backendcs361.herokuapp.com/categories/{tag}'" @click="showCopy"></i>
+                </button>
+                </h3>
                 <p style="font-weight: bold">https://backendcs361.herokuapp.com/categories/{tag}</p>
                 <p>This endpoint fetches the categories and articles that are related to the current article.</p>
                 <p>Return data is JSON formatted with each object having a link, and text field that holds the article's title.</p>
@@ -49,6 +70,23 @@
         </ul>
     </div>
 </template>
+<script>
+
+export default ({
+    data() { 
+        return { 
+            active: false
+        }
+    },
+    methods: { 
+        showCopy(){ 
+            this.$toast("Copied Text!", {
+                timeout: 2000
+            });
+        },
+    }
+})
+</script>
 
 <style scoped>
 #apiContent{ 
@@ -59,6 +97,10 @@
 .fas{ 
     padding: 10px;
 }
-
+button { 
+    outline: none; 
+    background: transparent; 
+    border: 1px solid transparent
+}
 </style>
 

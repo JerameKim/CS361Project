@@ -1,14 +1,17 @@
 <template>
     <div class="mainTextContainer">
         <h2>Photos</h2>
-        <i class="fas fa-download fa-2x" @click="download(); showDownload()" v-if="this.rendered"></i>
+        <button>
+            Download Links
+            <i class="fas fa-download fa-2x" @click="download(); showDownload()" v-if="this.rendered"></i>
+        </button>
         <ul>
             <li v-for="(photo, photoIdx) in photos" v-bind:key="photoIdx">
                 <div class="inner">
+                    <img :src=photo.src :alt=photo.caption download>
+                    <br>
                     <a :href=photo.src v-if="photo.id == 1">Title Photo</a>
                     <a :href= photo.src v-else>{{photo.caption}}</a>
-                    <br>
-                    <img :src=photo.src :alt=photo.caption download>
                     <hr>
                 </div>
             </li>
@@ -20,6 +23,7 @@
 
 export default({
     props: [
+        'lang', 
         'wikiTag'
     ],
     data() { 
@@ -34,7 +38,8 @@ export default({
     },
     methods: { 
         getData(){ 
-            const fullUrl = this.url + this.wikiTag
+            // const fullUrl = this.url + this.wikiTag
+            const fullUrl = this.url + this.lang + "/" + this.wikiTag
             console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
@@ -80,13 +85,16 @@ export default({
 }
 .inner{
     align-content: center;
+    padding-top: 10px;
 }
 ul{
     list-style-type: none;
     padding-left: 8px; 
     margin: 0;
 }
-/* li{
-    list-style: none;
-}; */
+button { 
+    outline: none; 
+    background: transparent; 
+    border: 1px solid transparent
+}
 </style>

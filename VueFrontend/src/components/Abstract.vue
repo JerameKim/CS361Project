@@ -1,8 +1,12 @@
 <template>
     <div>
         <h2>Abstract</h2>
+        <button>
         <i class="fas fa-clipboard-list fa-2x" v-if="this.rendered" v-clipboard:copy="this.abstract" @click="showCopy"></i>
+        </button>
+        <button>
         <i class="fas fa-download fa-2x" @click="download(); showDownload()" v-if="this.rendered" ></i>
+        </button>
         <p>{{this.abstract}}</p>
     </div>
 </template>
@@ -11,10 +15,12 @@
 
 export default({
     props: [
+        'lang',
         'wikiTag'
     ],
     data() { 
         return{ 
+            // url: "http://backendcs361.herokuapp.com/abstract/es/",
             url: "http://backendcs361.herokuapp.com/abstract/",
             abstract: "",
             rendered: false
@@ -25,7 +31,8 @@ export default({
     },
     methods: { 
         getData(){ 
-            const fullUrl = this.url + this.wikiTag
+            // const fullUrl = this.url + this.wikiTag
+            const fullUrl = this.url + this.lang + "/" + this.wikiTag
             console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> {
@@ -60,3 +67,11 @@ export default({
     }
 })
 </script>
+
+<style scoped>
+button { 
+    outline: none; 
+    background: transparent; 
+    border: 1px solid transparent
+}
+</style>

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <img alt="Weird Globe1" src="/assets/globe.jpg" contain height = "200px" width = "200px">
-    <h1>Wikipedia Scraper</h1>
-    <p> What in the Wikipedia?<br></p>
+    <img alt="Weird Globe1" src="/assets/simpleGlobe.png" height = "200px" width = "250px">
+    <h1>WikiReducer</h1>
+    <p>Wikipedia, but simpler<br></p>
     <form id = "main-form"  onsubmit="return false"> 
       <div>
-        <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup="verifyURL(wikiURL)" placeholder ="Enter your Wikipedia URL">
+        <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup="verifyURL(wikiURL)" placeholder ="Enter a valid Wikipedia URL">
         <!-- <button id = "submit-btn" class="main-btn"  type="button" @click="verifyURL(wikiURL)">Go!</button> -->
         <router-link id ="go-btn" v-if="isValid" :to="referenceTag" tag="button"> Go! </router-link>
       </div>
@@ -14,7 +14,7 @@
       <br>
       <br>
       <!-- This btn will take us to component with the api links -->
-      <router-link to="/filter" id="api-btn" class ="main-btn">Advanced Filters</router-link>
+      <router-link to="/filter" id="filter-btn" class ="main-btn btn btn-light">Advanced</router-link>
     </div>
   </div>
 </template>
@@ -30,41 +30,35 @@ export default {
   data() { 
     return { 
       wikiURL: "", 
-      finalIndex: -1,
       wikiFront: "https://en.wikipedia.org/wiki/", // 30 chars here 
       userFront: "",
       isWiki: 2, // 0 for match, anything else for not match
       wikiTag: "",
+      lang: "", 
       referenceTag: "",
       isValid: false
     }
   },
-  
-  // components: { 
-  //   filter: FiltersView
-  // },
 
   methods: { 
-    // Handle the wikipedia URL to find tag
+    // Handle the wikipedia URL to find tag, 
+    // make call to heroku to see if we can work it in
     verifyURL(inputURL){ 
-      this.finalIndex = inputURL.lastIndexOf("/")
 
-      // First 30 chars of user input
-      this.userFront = inputURL.slice(0, 30)
-      // Compare userFront and "https://en.wikipedia.org/wiki/"
-      this.isWiki = this.userFront.localeCompare(this.wikiFront)
-
+      // get the lang
+      this.lang = inputURL.slice(8, 10)
+      // get the tag
       this.wikiTag = inputURL.slice(30)
+
       // Exact match and total length is great, 
-      if((this.isWiki == 0)&& (inputURL.length> 30)){ 
+      if((inputURL.length> 30)){ 
         // Is a wikipedia page, route to somewhere else.
         this.isValid = true;
-        this.referenceTag = "/content/" + this.wikiTag;
+        this.referenceTag = "/content/" + this.lang + "/" + this.wikiTag;
         console.log("Valid input");
+        console.log(this.referenceTag)
       } else {
         console.log("Input invalid")
-        // do actions to show that not good 
-        // animate button shake and make input form red
       }
 
     }
@@ -74,7 +68,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 /* Colors 
@@ -106,11 +99,12 @@ Navy Blue: #05445E
 	font-weight:350;
   height: 3.3rem; 
   width: 7rem;
+	border-radius: 8px;
+
 }
-#api-btn{ 
+#filter-btn{ 
   background-color: #3ddbcc;
 	border-radius: 8px;
-  margin-top: 5rem;
 	font-size:20px;
 	font-weight:350;
   height: 3rem; 
@@ -119,7 +113,6 @@ Navy Blue: #05445E
 	text-shadow:0px 1px 0px grey;
 }
 .main-btn { 
-  background-color: #3ddbcc;
 	border-radius: 8px;
 	cursor:pointer;
 	color: white;

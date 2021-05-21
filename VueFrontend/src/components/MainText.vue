@@ -1,8 +1,12 @@
 <template>
     <div class="mainTextContainer">
         <h2>Main Text</h2>
-        <i class="fas fa-clipboard-list fa-2x" v-if="this.rendered" v-clipboard:copy="this.finalText" @click="showCopy"></i>
-        <i class="fas fa-download fa-2x" v-if="this.rendered" @click="download(); showDownload()"></i>
+        <button>
+            <i class="fas fa-clipboard-list fa-2x" v-if="this.rendered" v-clipboard:copy="this.finalText" @click="showCopy"></i>
+        </button>
+        <button>
+            <i class="fas fa-download fa-2x" v-if="this.rendered" @click="download(); showDownload()"></i>
+        </button>
         <p>{{this.mainText}}</p>
     </div>
 </template>
@@ -11,6 +15,7 @@
 
 export default({
     props: [
+        'lang',
         'wikiTag'
     ],
     data() { 
@@ -49,7 +54,8 @@ export default({
         },
 
         getData(){ 
-            const fullUrl = this.url + this.wikiTag
+            // const fullUrl = this.url + this.wikiTag
+            const fullUrl = this.url + this.lang + "/" + this.wikiTag
             console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
@@ -88,5 +94,10 @@ export default({
 }
 p{
     white-space: pre-line;
+}
+button { 
+    outline: none; 
+    background: transparent; 
+    border: 1px solid transparent
 }
 </style>
