@@ -9,6 +9,10 @@
                 <a :href=category.link>{{category.text}}</a>
             </li>
         </ul>
+        <h4 id="noData" v-if="this.noData">
+            There is no available citation data
+        </h4>
+        <b-spinner v-if="!this.rendered" id="loadingSpinner" label="Spinning"></b-spinner>
     </div>
 </template>
 
@@ -25,6 +29,7 @@ export default({
             categories: [],
             finalString: "",
             rendered: false,
+            noData: false,
             lines: [],
         }
     },
@@ -46,6 +51,9 @@ export default({
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
                 this.categories = data
+                if(this.categories.length == 0){
+                    this.noData = true;
+                }
                 this.rendered = true
                 this.parseData()
             })
@@ -89,6 +97,7 @@ export default({
     overflow: auto;
 } 
 ul{
+    padding-top: 20px;
     list-style: circle;
 }
 button { 

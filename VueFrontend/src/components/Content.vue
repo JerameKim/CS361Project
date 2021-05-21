@@ -1,5 +1,6 @@
 <template>
     <div id="content">
+    <appHeader></appHeader>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
         <div class="row">
             <div id="row1col1" class="col-sm-4">
@@ -32,7 +33,7 @@ import MainTextView from "./MainText";
 import CitationsView from "./Citations";
 import CategoriesView from "./Categories";
 import PhotosView from "./Photos";
-
+import Header from "./Header";
 
 export default {
     name: "Content",
@@ -46,7 +47,8 @@ export default {
         mainText: MainTextView,
         citationsView: CitationsView,
         categoriesView: CategoriesView,
-        photosView: PhotosView
+        photosView: PhotosView, 
+        appHeader: Header,
     },
 };
 </script>

@@ -1,18 +1,22 @@
 <template>
     <div class="mainTextContainer">
         <h2>Citations</h2>
-        <button>
+        <button v-if="!this.noData">
             <i class="fas fa-clipboard-list fa-2x" v-if="this.rendered" v-clipboard:copy="this.finalString" @click="showCopy();"></i>
         </button>
-        <button>
+        <button v-if="!this.noData">
             <i class="fas fa-download fa-2x" v-if="this.rendered" @click="showDownload()"></i>
         </button>
-        <ul>
+        <ul v-if="!this.noData">
             <li v-for="(citation, citationIdx) in citations" v-bind:key="citationIdx">
                 <p>{{citation.text}} (<a :href=citation.link>link</a>)</p>
                 <hr>
             </li>
         </ul>
+        <h4 id="noData" v-if="this.noData">
+            There is no available citation data
+        </h4>
+        <b-spinner v-if="!this.rendered" id="loadingSpinner" label="Spinning"></b-spinner>
     </div>
 </template>
 
@@ -27,9 +31,9 @@ export default({
         return{ 
             url: "http://backendcs361.herokuapp.com/citations/",
             citations: [],
-            // citation, link\n
             lines: [],
             finalString: "",
+            noData: false,
             rendered: false,
         }
     },
@@ -49,22 +53,15 @@ export default({
             // const fullUrl = this.url + this.wikiTag
             const fullUrl = this.url + this.lang + "/" + this.wikiTag
             console.log(fullUrl)
-            // fetch(fullUrl).then(response=> response.json())
-            // .then(data=> { 
-            //     this.citations = data
-            //     this.rendered = true
-            //     this.parseData()
-            // })
-            fetch(fullUrl).then(response=> 
-            // response.json()÷
-            console.log(response.json()))
-
-
-            // .then(data=> { 
-            //     this.categories = data
-            //     this.rendered = true
-            //     this.parseData()
-            // })
+            fetch(fullUrl).then(response=> response.json())
+            .then(data=> { 
+                this.citations = data
+                if(this.citations[0].id == -3){
+                    this.noData = true
+                }
+                this.rendered = true
+                this.parseData()
+            })
         },
         download(){ 
             console.log("Download Started")
@@ -114,4 +111,5 @@ button {
     background: transparent; 
     border: 1px solid transparent
 }
+
 </style>

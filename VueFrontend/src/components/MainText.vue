@@ -8,6 +8,10 @@
             <i class="fas fa-download fa-2x" v-if="this.rendered" @click="download(); showDownload()"></i>
         </button>
         <p>{{this.mainText}}</p>
+        <h4 id="noData" v-if="this.noData">
+            There is no available citation data
+        </h4>
+        <b-spinner v-if="!this.rendered" id="loadingSpinner" label="Spinning"></b-spinner>
     </div>
 </template>
 
@@ -24,6 +28,7 @@ export default({
             mainText: "",
             formatText: [],
             finalText: "",
+            noData: false,
             rendered: false,
         }
     },
@@ -46,7 +51,6 @@ export default({
                     continue; 
                 }
                 this.finalText = this.mainText
-
                 this.mainText = this.finalText + this.formatText[i] 
 
                 // console.log(this.formatText[i])
@@ -59,8 +63,10 @@ export default({
             console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
-                // this.mainText = data
                 this.formatText = data
+                if(this.formatText.length == 0){ 
+                    this.noData = true;
+                }
                 this.modifyData()
                 this.rendered = true
             })

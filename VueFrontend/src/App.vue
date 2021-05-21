@@ -1,20 +1,29 @@
 <template>
-  <div id="app">
-    <appHeader></appHeader>
+  <div id="app" >
+    <!-- <appHeader ></appHeader> -->
     <!-- <appContent></appContent> -->
-    <router-view></router-view>
+    <router-view ></router-view>
   </div>
 </template>
 
 <script>
-  import Header from "./components/Header";
+  // import Header from "./components/Header";
   // import Content from "./components/Content";
 
   export default {
     name: 'App',
+    data() { 
+      return { 
+        darkActive: false,
+      }
+    },
+    computed: { 
+      darkState() { 
+        return this.darkActive ? 'dark--active' : 'dark--inactive';
+      }
+    },
     components: {
-      appHeader: Header,
-      // appContent: Content
+      // appHeader: Header,
     }
   }
 </script>
@@ -28,4 +37,10 @@
   color: #2c3e50;
   margin-top: 10px;
 }
+
+#noData {
+    padding-top: 100px; 
+    text-align: center;
+}
+
 </style>

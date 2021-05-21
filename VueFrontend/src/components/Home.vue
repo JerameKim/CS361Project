@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div :class="darkState">
+    <appHeader :darkMode="true" v-if="darkActive" ></appHeader>
+    <appHeader :darkMode="false" v-if="!darkActive" ></appHeader>
+
+    <b-button variant="dark" class="darkButton" v-if="!darkActive" @click = "switchDark">Dark Mode</b-button>
+    <b-button variant="light" class="darkButton" v-if="darkActive" @click = "switchDark">Light Mode</b-button>
+
     <img alt="Weird Globe1" src="/assets/simpleGlobe.png" height = "200px" width = "250px">
     <h1>WikiReducer</h1>
     <p>Wikipedia, but simpler<br></p>
@@ -20,6 +26,7 @@
 </template>
 
 <script>
+import Header from "./Header"
 // import FiltersView from "./Filters";
 
 // when this is component is referenced then it will have these attributes
@@ -36,11 +43,19 @@ export default {
       wikiTag: "",
       lang: "", 
       referenceTag: "",
-      isValid: false
+      isValid: false, 
+      darkActive: false,
     }
   },
-
+  computed: { 
+    darkState() { 
+      return this.darkActive ? 'dark--active' : 'dark--inactive';
+    }
+  },
   methods: { 
+    switchDark(){ 
+      this.darkActive = !this.darkActive
+    },
     // Handle the wikipedia URL to find tag, 
     // make call to heroku to see if we can work it in
     verifyURL(inputURL){ 
@@ -60,11 +75,11 @@ export default {
       } else {
         console.log("Input invalid")
       }
-
-    }
+    },
   },
-  props: {
-  }
+  components: { 
+    appHeader: Header,
+  },
 }
 </script>
 
@@ -78,6 +93,23 @@ Blue Grotto: #189AB4
 Navy Blue: #05445E
 
  */
+.dark--inactive{
+  background-color: blue;
+  /* background-color: white */
+  color:  #2c3e50;
+} 
+
+.dark--active{ 
+  background-color: red
+  /* background-color: black */
+}
+.darkButton { 
+  position: absolute; 
+  top: 0; 
+  right: 0;
+  margin-top: 80px;
+  margin-right: 30px;
+}
 #user-url {
   background-color: white;
   border-radius: 8px;
@@ -89,6 +121,8 @@ Navy Blue: #05445E
   font-size: 20px;
 
 }
+
+
 #user-url:focus{ 
   outline: none;
   border-color: #cbf1f5;

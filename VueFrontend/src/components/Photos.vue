@@ -16,6 +16,10 @@
                 </div>
             </li>
         </ul>
+        <h4 id="noData" v-if="this.noData">
+            There is no available citation data
+        </h4>
+        <b-spinner v-if="!this.rendered" id="loadingSpinner" label="Spinning"></b-spinner>
     </div>
 </template>
 
@@ -31,6 +35,7 @@ export default({
             url: "http://backendcs361.herokuapp.com/photos/",
             photos: [],
             rendered: false,
+            noData: false,
         }
     },
     mounted(){
@@ -44,6 +49,9 @@ export default({
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
                 this.photos = data
+                if(this.photos.length == 0){ 
+                    this.noData = true;
+                }
                 this.rendered = true
             })
         },

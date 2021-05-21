@@ -8,6 +8,10 @@
         <i class="fas fa-download fa-2x" @click="download(); showDownload()" v-if="this.rendered" ></i>
         </button>
         <p>{{this.abstract}}</p>
+        <h4 id="noData" v-if="this.noData">
+            There is no available citation data
+        </h4>
+        <b-spinner v-if="!this.rendered" id="loadingSpinner" label="Spinning"></b-spinner>
     </div>
 </template>
 
@@ -23,6 +27,7 @@ export default({
             // url: "http://backendcs361.herokuapp.com/abstract/es/",
             url: "http://backendcs361.herokuapp.com/abstract/",
             abstract: "",
+            noData: false,
             rendered: false
         }
     },
@@ -37,6 +42,9 @@ export default({
             fetch(fullUrl).then(response=> response.json())
             .then(data=> {
                 this.abstract = data
+                if(this.abstract.length == 0){ 
+                    this.noData = true;
+                }
                 this.rendered = true
             })
         },
