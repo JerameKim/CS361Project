@@ -1,6 +1,7 @@
 <template>
     <div id="content">
-    <appHeader></appHeader>
+    <appHeader :darkMode="true" v-if="!darkActive" ></appHeader>
+    <appHeader :darkMode="false" v-if="darkActive" ></appHeader>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
         <div class="row">
             <div id="row1col1" class="col-sm-4">

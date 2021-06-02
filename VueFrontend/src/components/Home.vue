@@ -1,17 +1,18 @@
 <template>
   <div :class="darkState">
-    <appHeader :darkMode="true" v-if="darkActive" ></appHeader>
-    <appHeader :darkMode="false" v-if="!darkActive" ></appHeader>
-
-    <b-button variant="dark" class="darkButton" v-if="!darkActive" @click = "switchDark">Dark Mode</b-button>
+    <appHeader :darkMode="true" v-if="!darkActive" ></appHeader>
+    <appHeader :darkMode="false" v-if="darkActive" ></appHeader>
+    <b-button variant="secondary" class="darkButton" v-if="!darkActive" @click = "switchDark">Dark Mode</b-button>
     <b-button variant="light" class="darkButton" v-if="darkActive" @click = "switchDark">Light Mode</b-button>
-
+    <br>
     <img alt="Weird Globe1" src="/assets/simpleGlobe.png" height = "200px" width = "250px">
     <h1>WikiReducer</h1>
     <p>Wikipedia, but simpler<br></p>
     <form id = "main-form"  onsubmit="return false"> 
       <div>
-        <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup="verifyURL(wikiURL)" placeholder ="Enter a valid Wikipedia URL">
+        <input id="user-url-light" v-if="darkActive" type="text" v-model = "wikiURL" v-on:keyup="verifyURL(wikiURL)" placeholder ="Enter a valid Wikipedia URL">
+        <input id="user-url-dark" v-if="!darkActive" type="text" v-model = "wikiURL" v-on:keyup="verifyURL(wikiURL)" placeholder ="Enter a valid Wikipedia URL">
+
         <!-- <button id = "submit-btn" class="main-btn"  type="button" @click="verifyURL(wikiURL)">Go!</button> -->
         <router-link id ="go-btn" v-if="isValid" :to="referenceTag" tag="button"> Go! </router-link>
       </div>
@@ -20,7 +21,7 @@
       <br>
       <br>
       <!-- This btn will take us to component with the api links -->
-      <router-link to="/filter" id="filter-btn" class ="main-btn btn btn-light">Advanced</router-link>
+      <router-link to="/filter" class="advancedButton"><b-button variant="primary">Advanced</b-button></router-link>
     </div>
   </div>
 </template>
@@ -37,7 +38,6 @@ export default {
   data() { 
     return { 
       wikiURL: "", 
-      wikiFront: "https://en.wikipedia.org/wiki/", // 30 chars here 
       userFront: "",
       isWiki: 2, // 0 for match, anything else for not match
       wikiTag: "",
@@ -69,7 +69,9 @@ export default {
       if((inputURL.length> 30)){ 
         // Is a wikipedia page, route to somewhere else.
         this.isValid = true;
+        // creates the url route
         this.referenceTag = "/content/" + this.lang + "/" + this.wikiTag;
+        // lets us know the reference tag and if it was succesful a
         console.log("Valid input");
         console.log(this.referenceTag)
       } else {
@@ -85,23 +87,29 @@ export default {
 
 <style scoped>
 
-/* Colors 
-
-Baby Blue: #D4F1F4
-Blue Green: #75E6DA
-Blue Grotto: #189AB4
-Navy Blue: #05445E
-
- */
 .dark--inactive{
-  background-color: blue;
-  /* background-color: white */
+  /* background-color: blue; */
+  background-color: white;
   color:  #2c3e50;
 } 
 
+.dark--inactive, html{ 
+  padding: 0; 
+  margin: 0; 
+  width: 100%;
+  min-height: 100vh;
+}
+
+.dark--active, html{ 
+  padding: 0; 
+  margin: 0; 
+  width: 100%;
+  min-height: 100vh;
+}
+
 .dark--active{ 
-  background-color: red
-  /* background-color: black */
+  background-color: #1c1c1c;
+  color: #c9d1d9;
 }
 .darkButton { 
   position: absolute; 
@@ -110,7 +118,7 @@ Navy Blue: #05445E
   margin-top: 80px;
   margin-right: 30px;
 }
-#user-url {
+#user-url-dark {
   background-color: white;
   border-radius: 8px;
   border-style: solid;
@@ -119,9 +127,19 @@ Navy Blue: #05445E
   height: 2rem;
   padding: 10px;
   font-size: 20px;
-
 }
-
+#user-url-light {
+  background-color: #161b22;
+  color: #c9d1d9;
+  border-radius: 9px;
+  border-style: solid;
+  border-color: #21262d;
+  border-width: 1.4px;
+  width: 25rem;
+  height: 2rem;
+  padding: 10px;
+  font-size: 20px;
+}
 
 #user-url:focus{ 
   outline: none;
@@ -136,16 +154,7 @@ Navy Blue: #05445E
 	border-radius: 8px;
 
 }
-#filter-btn{ 
-  background-color: #3ddbcc;
-	border-radius: 8px;
-	font-size:20px;
-	font-weight:350;
-  height: 3rem; 
-  width: 8rem;
-  text-align: center;
-	text-shadow:0px 1px 0px grey;
-}
+
 .main-btn { 
 	border-radius: 8px;
 	cursor:pointer;
@@ -161,5 +170,12 @@ Navy Blue: #05445E
 .main-btn:active{ 
   position:relative;
 	top:1px;
+}
+.advancedButton{ 
+  position: absolute; 
+  bottom: 30px; 
+  right: 0;
+  margin-top: 80px;
+  margin-right: 30px;
 }
 </style>
