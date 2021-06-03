@@ -14,18 +14,11 @@
     name: 'App',
     data() { 
       return { 
-        darkActive: false,
-      }
-    },
-    computed: { 
-      darkState() { 
-        return this.darkActive ? 'dark--active' : 'dark--inactive';
       }
     },
     components: {
-      // appHeader: Header,
-    }
-  }
+    },
+}
 </script>
 
 <style>
@@ -34,8 +27,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  /* margin-top: 10px; */
 }
 
 #noData {

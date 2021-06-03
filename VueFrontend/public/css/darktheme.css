@@ -1,7 +1,56 @@
 body{ 
-	background-color: orange;
+	background-color: #161b22;
 }
 
-h1,h2,h3,h4,h5,h6,p{
-	color: tan;
+h1, h2, h3, h4, h5, h6, p, a,li, label { 
+	color: #c9d1d9;
+}
+
+.navbar{ 
+	background-color: #0d1117;
+}
+
+#user-url{
+	background-color: #161b22;
+	color: #c9d1d9;
+	border-radius: 9px;
+	border-style: solid;
+	border-color: #21262d;
+	border-width: 1.4px;
+	width: 25rem;
+	height: 2rem;
+	padding: 10px;
+	font-size: 20px;
+}
+
+.col-sm {
+    border-style: solid;
+    border-color: #c9d1d9;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 6px;
+}
+
+#go-btn{ 
+	background-color: #0d1117; 
+	color: #c9d1d9;
+}
+hr { 
+	border: 1px solid white;
+}
+h2 {
+    background-color: #161b22;
+    border-radius: 4px;
+    padding: 4px 8px;
+    display: inline-block;
+}
+.fa-clipboard{
+	color: #c9d1d9;
+}
+
+.fa-download{
+	color: #c9d1d9;
+}
+.fa { 
+	color: #c9d1d9;
 }

@@ -1,40 +1,54 @@
 <template>
-  <div :class="darkState">
-    <appHeader :darkMode="true" v-if="!darkActive" ></appHeader>
-    <appHeader :darkMode="false" v-if="darkActive" ></appHeader>
-    <b-button variant="secondary" class="darkButton" v-if="!darkActive" @click = "switchDark">Dark Mode</b-button>
-    <b-button variant="light" class="darkButton" v-if="darkActive" @click = "switchDark">Light Mode</b-button>
+  <div>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="<%= BASE_URL %>/css/darktheme.css"> -->
+    <link href="<%= BASE_URL %>/css/darktheme.css">
+    <appHeader></appHeader>
+    <button id="darkButton" type="button" class="btn btn-secondary" @click="darkThemeSwitch">Switch Theme</button>
     <br>
     <img alt="Weird Globe1" src="/assets/simpleGlobe.png" height = "200px" width = "250px">
     <h1>WikiReducer</h1>
     <p>Wikipedia, but simpler<br></p>
     <form id = "main-form"  onsubmit="return false"> 
       <div>
-        <input id="user-url-light" v-if="darkActive" type="text" v-model = "wikiURL" v-on:keyup="verifyURL(wikiURL)" placeholder ="Enter a valid Wikipedia URL">
-        <input id="user-url-dark" v-if="!darkActive" type="text" v-model = "wikiURL" v-on:keyup="verifyURL(wikiURL)" placeholder ="Enter a valid Wikipedia URL">
-
-        <!-- <button id = "submit-btn" class="main-btn"  type="button" @click="verifyURL(wikiURL)">Go!</button> -->
-        <router-link id ="go-btn" v-if="isValid" :to="referenceTag" tag="button"> Go! </router-link>
+        <input id="user-url" type="text" v-model = "wikiURL" v-on:keyup="verifyURL(wikiURL)" placeholder ="Enter a valid Wikipedia URL">
+        <router-link class="btn btn-light" id ="go-btn" v-if="isValid" :to="referenceTag" tag="button" :showData="showAbstract">Go!</router-link>
       </div>
     </form>
-    <div>
+    <br>
+    <button class="button" v-on:click="showFilter = !showFilter">
+      <i class="fa fa-angle-double-down"></i>
+    </button>
+    <div v-if="showFilter">
       <br>
+      <h5>What would you like to see?</h5>
+        <div class="row">
+            <div class="col-sm">
+                <p>Select sections you would like to see</p>
+                <input type="checkbox" id="abstract" value="abstract" checked="true" v-model="showAbstract">
+                <label for="abstract"> Abstract </label><br>
+                <input type="checkbox" id="categories" value="categoires" checked = "false" v-model="showCategories">
+                <label for="categories"> Categoires </label><br>
+                <input type="checkbox" id="chapters" value="chapters" checked = "false" v-model="showChapters">
+                <label for="chapters"> Chapters </label><br>
+                <input type="checkbox" id="mainText" value="mainText" checked="true" v-model="showMain">
+                <label for="mainText"> Main text</label><br>
+                <input type="checkbox" id="photos" value="photos" checked="true" v-model="showPhotos">
+                <label for="photos"> Photos </label><br>
+                <input type="checkbox" id="citations" value="citations" checked="true" v-model="showCitations">
+                <label for="citations"> Citations </label><br>
+            </div>
+        </div>
       <br>
-      <!-- This btn will take us to component with the api links -->
-      <router-link to="/filter" class="advancedButton"><b-button variant="primary">Advanced</b-button></router-link>
     </div>
   </div>
 </template>
 
 <script>
-import Header from "./Header"
-// import FiltersView from "./Filters";
-
+import Header from "./Header";
 // when this is component is referenced then it will have these attributes
 export default {
-  
   name: 'Home',
-  
   data() { 
     return { 
       wikiURL: "", 
@@ -45,37 +59,85 @@ export default {
       referenceTag: "",
       isValid: false, 
       darkActive: false,
-    }
-  },
-  computed: { 
-    darkState() { 
-      return this.darkActive ? 'dark--active' : 'dark--inactive';
+      showFilter: false,
+
+      showAbstract: true, 
+      showCategories: true,
+      showChapters: false, 
+      showMain: true, 
+      showPhotos: true, 
+      showCitations: true,
     }
   },
   methods: { 
-    switchDark(){ 
-      this.darkActive = !this.darkActive
-    },
     // Handle the wikipedia URL to find tag, 
     // make call to heroku to see if we can work it in
     verifyURL(inputURL){ 
-
       // get the lang
       this.lang = inputURL.slice(8, 10)
       // get the tag
       this.wikiTag = inputURL.slice(30)
-
       // Exact match and total length is great, 
       if((inputURL.length> 30)){ 
         // Is a wikipedia page, route to somewhere else.
         this.isValid = true;
+        // make the validation code 
+        var abstractView = "0"; 
+        var mainTextView = "0"; 
+        var categoriesView = "0"; 
+        var photosView = "0";
+        var citationsView = "0"; 
+        var chaptersView = "0";
+
+        if(this.showAbstract) { 
+          abstractView = "1";
+        } 
+        if(this.showCategories){
+            categoriesView = "1" 
+        } 
+        if(this.showChapters){ 
+          chaptersView = "1";
+        }
+        if(this.showMain){
+          mainTextView = "1";
+        } 
+        if(this.showPhotos){
+          photosView = "1";
+        } 
+        if(this.showCitations){ 
+          citationsView = "1";
+        }
+        var showCode = abstractView + categoriesView + chaptersView + mainTextView + photosView + citationsView;
         // creates the url route
-        this.referenceTag = "/content/" + this.lang + "/" + this.wikiTag;
+        this.referenceTag = "/content/" + showCode + "/" + this.lang + "/" + this.wikiTag + "/";
         // lets us know the reference tag and if it was succesful a
-        console.log("Valid input");
-        console.log(this.referenceTag)
+        // console.log("Valid input");
+        // console.log(this.referenceTag)
       } else {
-        console.log("Input invalid")
+        // console.log("Input invalid")
+      }
+    },
+
+    _addDarkTheme() {
+      let darkThemeLinkEl = document.createElement("link");
+      darkThemeLinkEl.setAttribute("rel", "stylesheet");
+      darkThemeLinkEl.setAttribute("href", "/css/darktheme.css");
+      darkThemeLinkEl.setAttribute("id", "dark-theme-style");
+
+      let docHead = document.querySelector("head");
+      docHead.append(darkThemeLinkEl);
+    },
+    _removeDarkTheme() {
+      let darkThemeLinkEl = document.querySelector("#dark-theme-style");
+      let parentNode = darkThemeLinkEl.parentNode;
+      parentNode.removeChild(darkThemeLinkEl);
+    },
+    darkThemeSwitch() {
+      let darkThemeLinkEl = document.querySelector("#dark-theme-style");
+      if (!darkThemeLinkEl) {
+        this._addDarkTheme()
+      } else {
+        this._removeDarkTheme()
       }
     },
   },
@@ -86,51 +148,7 @@ export default {
 </script>
 
 <style scoped>
-
-.dark--inactive{
-  /* background-color: blue; */
-  background-color: white;
-  color:  #2c3e50;
-} 
-
-.dark--inactive, html{ 
-  padding: 0; 
-  margin: 0; 
-  width: 100%;
-  min-height: 100vh;
-}
-
-.dark--active, html{ 
-  padding: 0; 
-  margin: 0; 
-  width: 100%;
-  min-height: 100vh;
-}
-
-.dark--active{ 
-  background-color: #1c1c1c;
-  color: #c9d1d9;
-}
-.darkButton { 
-  position: absolute; 
-  top: 0; 
-  right: 0;
-  margin-top: 80px;
-  margin-right: 30px;
-}
-#user-url-dark {
-  background-color: white;
-  border-radius: 8px;
-  border-style: solid;
-  border-color: #e6e6e6;
-  width: 25rem;
-  height: 2rem;
-  padding: 10px;
-  font-size: 20px;
-}
-#user-url-light {
-  background-color: #161b22;
-  color: #c9d1d9;
+#user-url{
   border-radius: 9px;
   border-style: solid;
   border-color: #21262d;
@@ -141,41 +159,36 @@ export default {
   font-size: 20px;
 }
 
-#user-url:focus{ 
-  outline: none;
-  border-color: #cbf1f5;
+.button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 }
+
 #go-btn{ 
   margin-left: 30px;
-	font-size:25px;
-	font-weight:350;
-  height: 3.3rem; 
-  width: 7rem;
-	border-radius: 8px;
-
 }
 
-.main-btn { 
-	border-radius: 8px;
-	cursor:pointer;
-	color: white;
-	padding: 10px;
-  text-align: center;
-	text-shadow:0px 1px 0px grey;
-}
-.main-btn:hover{ 
-  background:linear-gradient(to bottom, #3ddbcc 5%, #599bb3 100%);
-	background-color:#408c99;
-}
-.main-btn:active{ 
-  position:relative;
-	top:1px;
-}
 .advancedButton{ 
   position: absolute; 
   bottom: 30px; 
   right: 0;
-  margin-top: 80px;
   margin-right: 30px;
+}
+
+#darkButton { 
+  position: absolute;
+  top: 60px;
+  right: 0;
+  margin-top: 30px;
+  margin-right: 20px;
+}
+
+label{
+  margin-left: 9px;
 }
 </style>

@@ -45,7 +45,7 @@ export default({
         getData(){ 
             // const fullUrl = this.url + this.wikiTag
             const fullUrl = this.url + this.lang + "/" + this.wikiTag
-            console.log(fullUrl)
+            //console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> { 
                 this.photos = data

@@ -2,10 +2,10 @@
     <div>
         <h2>Abstract</h2>
         <button>
-        <i class="fas fa-clipboard-list fa-2x" v-if="this.rendered" v-clipboard:copy="this.abstract" @click="showCopy"></i>
+            <i class="fas fa-clipboard fa-2x" v-if="this.rendered" v-clipboard:copy="this.abstract" @click="showCopy"></i>
         </button>
         <button>
-        <i class="fas fa-download fa-2x" @click="download(); showDownload()" v-if="this.rendered" ></i>
+            <i class="fas fa-download fa-2x" @click="download(); showDownload()" v-if="this.rendered" ></i>
         </button>
         <p>{{this.abstract}}</p>
         <h4 id="noData" v-if="this.noData">
@@ -38,7 +38,7 @@ export default({
         getData(){ 
             // const fullUrl = this.url + this.wikiTag
             const fullUrl = this.url + this.lang + "/" + this.wikiTag
-            console.log(fullUrl)
+            //console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> {
                 this.abstract = data
