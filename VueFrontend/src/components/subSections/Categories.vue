@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mainTextContainer">
         <h2>Categories</h2>
         <button>
             <i class="fas fa-download fa-2x" v-if="this.rendered" @click="download(); showDownload()"></i>
@@ -92,7 +92,10 @@ export default({
 </script>
 
 <style scoped>
-
+.mainTextContainer{ 
+    height: 400px;
+    overflow: auto;
+}
 ul{
     padding-top: 20px;
     list-style: circle;

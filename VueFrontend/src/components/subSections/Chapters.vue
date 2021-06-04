@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mainTextContainer">
         <h2>Chapters</h2>
         <button>
             <i class="fas fa-download fa-2x" @click="download(); showDownload()" v-if="this.rendered" ></i>
@@ -92,5 +92,9 @@ button {
 ul { 
 	padding-top: 20px; 
 	list-style: circle;
+}
+.mainTextContainer{ 
+    height: 400px;
+    overflow: auto;
 }
 </style>

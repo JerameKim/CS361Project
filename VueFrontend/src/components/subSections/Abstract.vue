@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class = "mainTextContainer">
         <h2>Abstract</h2>
         <button>
             <i class="fas fa-clipboard fa-2x" v-if="this.rendered" v-clipboard:copy="this.abstract" @click="showCopy"></i>
@@ -8,6 +8,17 @@
             <i class="fas fa-download fa-2x" @click="download(); showDownload()" v-if="this.rendered" ></i>
         </button>
         <p>{{this.abstract}}</p>
+        <hr>
+    <!-- <b-dropdown id="dropdown-1" text="Translate Abstract" class="m-md-2">
+        <b-dropdown-item @click="translateLang(es)">Spanish</b-dropdown-item>
+        <b-dropdown-item @click="translateLang(fr)">French</b-dropdown-item>
+        <b-dropdown-item @click="translateLang(ru)">Russian</b-dropdown-item>
+        <b-dropdown-item @click="translateLang(it)">Italian</b-dropdown-item>
+        <b-dropdown-item @click="translateLang(ko)">Korean</b-dropdown-item>
+        <b-dropdown-item @click="translateLang(zh)">Chinese</b-dropdown-item>
+        <b-dropdown-item @click="translateLang(ja)">Japanese</b-dropdown-item>
+    </b-dropdown> -->
+        <p>{{this.translatedText}}</p>
         <h4 id="noData" v-if="this.noData">
             There is no available citation data
         </h4>
@@ -28,17 +39,43 @@ export default({
             url: "http://backendcs361.herokuapp.com/abstract/",
             abstract: "",
             noData: false,
-            rendered: false
+            rendered: false,
+            es: "es", 
+            fr: "fr", 
+            ru: "ru", 
+            it: "it", 
+            ko: "ko", 
+            zh: "zh", 
+            ja: "ja",
+            translatedText: "",
         }
     },
     mounted(){
         this.getData()
     },
-    methods: { 
+    methods: {
+        translateLang(inputLang) { 
+            console.log(inputLang);
+            const requestOptions = { 
+                method: "POST", 
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ Text: this.abstract})
+            }; 
+            var frontURL = "https://translation-microservice.azurewebsites.net?toLanguageCode="
+            var languageCode = inputLang
+            var finalURL = frontURL + languageCode
+            fetch(finalURL, requestOptions)
+            .then(response=>response.text())
+            .then(data=>{ 
+                this.translatedText = data
+                if(this.translatedText.length == 0){
+                    this.noData = true; 
+                }
+                this.rendered = true;
+            })
+        },
         getData(){ 
-            // const fullUrl = this.url + this.wikiTag
             const fullUrl = this.url + this.lang + "/" + this.wikiTag
-            //console.log(fullUrl)
             fetch(fullUrl).then(response=> response.json())
             .then(data=> {
                 this.abstract = data
@@ -77,6 +114,11 @@ export default({
 </script>
 
 <style scoped>
+.mainTextContainer{ 
+    height: 400px;
+    overflow: auto;
+}
+
 button { 
     outline: none; 
     background: transparent; 
